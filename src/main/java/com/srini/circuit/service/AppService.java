@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -31,11 +32,26 @@ public class AppService {
 
     }
 
+    @CircuitBreaker(name = "serviceB", fallbackMethod = "fallbackB")
+    public Flux<String> getAll(){
+        return webClient.get()
+                .uri("/api/v1/all")
+                .retrieve()
+                .bodyToFlux(String.class) ;
+    }
+
 
     private Mono<String> fallbackA(Throwable throwable){
         log.error("{}", throwable) ;
         log.info("Falling back to alternative response ") ;
         return Mono.just("fallback response from resilience4j") ;
+    }
+
+    private Flux<String> fallbackB(Throwable throwable){
+        log.error("{}", throwable) ;
+        log.info("Falling back to alternative response ") ;
+
+        return Flux.fromArray(new String[]{"fallback B", "fallback flux"}) ;
     }
 
 }

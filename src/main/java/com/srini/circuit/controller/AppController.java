@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -27,6 +28,12 @@ public class AppController {
     @GetMapping("get")
     public Mono<String> get(){
         return appService.get() ;
+    }
+
+
+    @GetMapping("all")
+    public Flux<String> getAll(){
+        return appService.getAll() ;
     }
 
 }
