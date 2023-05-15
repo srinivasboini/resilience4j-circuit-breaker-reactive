@@ -32,6 +32,11 @@ public class AppService {
 
     }
 
+    /**
+     * Get all flux.
+     *
+     * @return the flux
+     */
     @CircuitBreaker(name = "serviceB", fallbackMethod = "fallbackB")
     public Flux<String> getAll(){
         return webClient.get()

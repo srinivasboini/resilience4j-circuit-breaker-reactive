@@ -31,6 +31,11 @@ public class AppController {
     }
 
 
+    /**
+     * Get all flux.
+     *
+     * @return the flux
+     */
     @GetMapping("all")
     public Flux<String> getAll(){
         return appService.getAll() ;
